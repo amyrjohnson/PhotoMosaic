@@ -1,4 +1,5 @@
 class Image < ActiveRecord::Base
+    attr_accessor :img_height, :img_width
     require 'RMagick'
     include Magick
     # extend CarrierWave::Mount
