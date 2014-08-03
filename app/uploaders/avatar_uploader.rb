@@ -1,9 +1,9 @@
 # encoding: utf-8
-
+require 'carrierwave/processing/rmagick'
 class AvatarUploader < CarrierWave::Uploader::Base
-
+  # include CarrierWave::MiniMagick
   # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
+  include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
@@ -26,6 +26,9 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   # Process files as they are uploaded:
   # process :scale => [200, 300]
+
+  # process :resize_to_fit => [32,32]
+
   #
   # def scale(width, height)
   #   # do something
@@ -47,5 +50,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+
 
 end

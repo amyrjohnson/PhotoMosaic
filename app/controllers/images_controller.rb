@@ -7,7 +7,6 @@ class ImagesController < ApplicationController
     def create
         @image = Image.new
         @image.avatar = params[:image][:avatar]
-        binding.pry
         @image.search = params[:image][:search]
         @image.save
         # uploader = AvatarUploader.new
