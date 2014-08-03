@@ -1,0 +1,13 @@
+<h1>Image index page!!</h1>
+
+
+<%= form_for(@image, :html => {:multipart => true, method: :post }) do |f| %>
+     <div>
+        <%= f.label "search term" %>
+        <%= f.text_field :search  %>
+     <div>
+    <%= f.file_field :avatar  %>
+    <%= f.hidden_field :avatar_cache %>
+  </div>
+  <%= f.submit %>
+<% end %>
