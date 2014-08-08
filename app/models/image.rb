@@ -1,5 +1,6 @@
 class Image < ActiveRecord::Base
-    attr_accessor :img_height, :img_width
+    attr_accessor :img_height, :img_width, :color_list, :color_hash
+
     require 'RMagick'
     include Magick
     # extend CarrierWave::Mount
@@ -12,6 +13,14 @@ class Image < ActiveRecord::Base
         @img.resize_to_fit!(32,32)
         #break image up into small pieces
         pixels = @img.export_pixels()
+    end
+
+    def rows
+        @img.rows
+    end
+
+    def cols
+        @img.columns
     end
 
 
@@ -54,16 +63,35 @@ class Image < ActiveRecord::Base
             end
             pixel_colors << pixel_color
         end
+        @color_list = pixel_colors
         return pixel_colors
     end
 
     def get_color_counts
         color_counts = Hash.new(0)
-        pixel_colors = sort_pixels_by_color
+        pixel_colors = self.color_list
         pixel_colors.each do |color|
             color_counts[color] += 1
         end
+        @color_hash = color_counts
         color_counts
+    end
+
+
+     def assemble_pictures(pictures)
+
+        #Assuming all the images are in the current directory and named 
+        #from 1.jpg to n.jpg and row * col = n.
+        #(y + (x-1)*col).to_s + ".jpg"
+        # pictures = search.picture_array.to_enum
+
+        row = self.rows
+        col = self.cols
+        ilg = ImageList.new
+        1.upto(col) {|x| il = ImageList.new
+            1.upto(row) {|y| il.push(Image.read(pictures.next).first)}
+            ilg.push(il.append(false))}
+        ilg.append(true).write("out.jpg")
     end
 
 

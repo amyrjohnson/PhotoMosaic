@@ -8,4 +8,9 @@
 <p>Search Term: <%= @image.search %></p>
 
 
-<p>Pixels : <%= @image.pixelize.first.to_s %>
+<p>Pictures: </p>
+<% @pictures.each do |pic| %>
+
+  <%= image_tag(pic.filename) %>
+
+<% end %>
