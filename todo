@@ -2,7 +2,6 @@ search engine id: 012238431153746656688:i-xqvgd0-hq
 
 client id : 42019410479-35lprcdiuvq2thp94nidij9rs67us058.apps.googleusercontent.com
 
-API key: AIzaSyBqHvq5UeKEtmOVSGZ0vWrjKK1YGRS_4k8
 
 
 sample API request: 
@@ -36,5 +35,11 @@ get api working
 reassemble pictures
 
 Check out Montage (http://www.imagemagick.org/RMagick/doc/ilist.html#montage)
+
+
+[x]get dif photos with every query
+[ ]reusing photos problem
+[ ]how many photos to get all the colors I want
+    [ ]add in colors to google search to get variety?
 
 
