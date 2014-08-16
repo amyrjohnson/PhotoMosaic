@@ -16,7 +16,6 @@ class ImagesController < ApplicationController
 
     def show
         @image = Image.find(params[:id])
-        @search = Search.new
-        @pictures = @search.resize_pictures(@search.some_pictures)
+        @search = Search.new(@image.search)
     end
 end
