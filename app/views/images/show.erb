@@ -6,11 +6,3 @@
 <p>Name: <%= @image.name %></p>
 
 <p>Search Term: <%= @image.search %></p>
-
-
-<p>Pictures: </p>
-<% @pictures.each do |pic| %>
-
-  <%= image_tag(pic.filename) %>
-
-<% end %>

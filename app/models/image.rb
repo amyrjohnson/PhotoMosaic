@@ -10,12 +10,12 @@ class Image < ActiveRecord::Base
 
     def get_pixel_list
         @img = ImageList.new(self.avatar.current_path())
-        @img.resize_to_fit!(32,32)
+        @img.resize_to_fit!(25,25)
         #break image up into small pieces
         pixels = @img.export_pixels()
     end
 
-    def rows
+    def rows  
         @img.rows
     end
 
@@ -67,32 +67,32 @@ class Image < ActiveRecord::Base
         return pixel_colors
     end
 
-    def get_color_counts
-        color_counts = Hash.new(0)
-        pixel_colors = self.color_list
-        pixel_colors.each do |color|
-            color_counts[color] += 1
+    def color_distance(color1, color2)
+        distance = (((color1[0] - color2[0])**2) + ((color1[1] - color2[1])**2) + ((color1[2] - color2[2])**2))**0.5
+    end
+
+    def find_matching_tile(pixel, tile_colors)
+        distances = tile_colors.collect do |tile|
+            self.color_distance(pixel, tile)
         end
-        @color_hash = color_counts
-        color_counts
+        distances.index(distances.min)
     end
 
 
-     def assemble_pictures(pictures)
+    # def get_color_counts
+    #     color_counts = Hash.new(0)
+    #     pixel_colors = self.color_list
+    #     pixel_colors.each do |color|
+    #         color_counts[color] += 1
+    #     end
+    #     @color_hash = color_counts
+    #     color_counts
+    # end
 
-        #Assuming all the images are in the current directory and named 
-        #from 1.jpg to n.jpg and row * col = n.
-        #(y + (x-1)*col).to_s + ".jpg"
-        # pictures = search.picture_array.to_enum
-
-        row = self.rows
-        col = self.cols
-        ilg = ImageList.new
-        1.upto(col) {|x| il = ImageList.new
-            1.upto(row) {|y| il.push(Image.read(pictures.next).first)}
-            ilg.push(il.append(false))}
-        ilg.append(true).write("out.jpg")
-    end
+    # def setup
+    #     self.sort_pixels_by_color
+    #     self.get_color_counts
+    # end
 
 
 end
