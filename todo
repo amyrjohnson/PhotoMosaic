@@ -1,12 +1,10 @@
-search engine id: 012238431153746656688:i-xqvgd0-hq
 
-client id : 42019410479-35lprcdiuvq2thp94nidij9rs67us058.apps.googleusercontent.com
 
 
 
 sample API request: 
 
-GET https://www.googleapis.com/customsearch/v1?q=cheetos&cx=012238431153746656688%3Ai-xqvgd0-hq&imgDominantColor=yellow&searchType=image&key={YOUR_API_KEY}
+GET https://www.googleapis.com/customsearch/v1?q=cheetos&&imgDominantColor=yellow&searchType=image&key={YOUR_API_KEY}
 
 X-JavaScript-User-Agent:  Google APIs Explorer
 

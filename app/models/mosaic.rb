@@ -11,8 +11,8 @@ class Mosaic
         (0..c).each do |col_number|
           puts "row number is #{row_number}, col number is #{col_number}"
 
-          page.x = col_number * 15
-          page.y = row_number * 15
+          page.x = col_number * 5
+          page.y = row_number * 5
           puts "page is #{page}"
           puts "current photo is #{photos.cur_image.inspect}"
           photos.page = page
@@ -28,7 +28,7 @@ class Mosaic
 
   def create_mosaic(image_list)
     m = image_list.mosaic
-    m.write("mosiac.gif")
+    m.write("mosiac1.gif")
   end
 
 end
