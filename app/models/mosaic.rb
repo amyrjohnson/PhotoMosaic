@@ -1,6 +1,6 @@
 class Mosaic
 
-  def order_photos(photos, rows, cols)
+  def order_photos(photos, rows, cols, tile_length, tile_width)
       page = Magick::Rectangle.new(0,0,0,0)
       photos.scene = 0
 
@@ -11,8 +11,8 @@ class Mosaic
         (0..c).each do |col_number|
           puts "row number is #{row_number}, col number is #{col_number}"
 
-          page.x = col_number * 5
-          page.y = row_number * 5
+          page.x = col_number * tile_width
+          page.y = row_number * tile_length
           puts "page is #{page}"
           puts "current photo is #{photos.cur_image.inspect}"
           photos.page = page

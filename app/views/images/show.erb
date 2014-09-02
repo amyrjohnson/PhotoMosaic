@@ -1,8 +1,10 @@
 <h1>image has been uploaded</h1>
 
+<h2>Image:</h2>
 <%= image_tag(@image.avatar.url())  %>
 
-<p>Search Term: <%= @image.search %></p>
-<p>Name: <%= @image.name %></p>
+<h2>Search Term: <%= @image.search %></h2>
 
-<p>Search Term: <%= @image.search %></p>
+<h2>Mosaic:</h2>
+<%= image_tag 'mosaic1.gif' %>
+

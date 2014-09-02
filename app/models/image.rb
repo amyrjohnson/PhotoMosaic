@@ -8,9 +8,10 @@ class Image < ActiveRecord::Base
 
     validates_integrity_of  :avatar
 
-    def get_pixel_list
+    def get_pixel_list(length, width)
         @img = ImageList.new(self.avatar.current_path())
-        @img.resize_to_fit!(32,32)
+        @img.resize_to_fit!(length, width)
+        @img = @img.contrast(sharpen=true)
         #break image up into small pieces
         pixels = @img.export_pixels()
     end
@@ -24,8 +25,8 @@ class Image < ActiveRecord::Base
     end
 
 
-    def get_pixels
-        raw_pixels = self.get_pixel_list
+    def get_pixels(length, width)
+        raw_pixels = self.get_pixel_list(length, width)
         @pixels = []
         i = 0
         while i < raw_pixels.length
@@ -61,13 +62,13 @@ class Image < ActiveRecord::Base
         @ordered_tiles = l
     end
 
-    def make_mosaic
+    def make_mosaic(photo_length, photo_width, tile_length, tile_width)
         puts "getting pixels"
         time = Time.now
-        self.get_pixels
+        self.get_pixels(photo_length, photo_width)
         s = Search.new(self.search)
         puts "going to the seach class"
-        s.complete_search
+        s.complete_search(tile_length, tile_width)
         puts "matching pixels with image tiles"
 
         self.match_all_pixels(s.photo_tile_colors)
@@ -75,10 +76,21 @@ class Image < ActiveRecord::Base
         self.order_tiles(s.resized_photo_tiles)
         m = Mosaic.new
         puts "ordering photos for mosaic"
-        photos = m.order_photos(self.ordered_tiles, self.rows, self.cols)
+        photos = m.order_photos(self.ordered_tiles, self.rows, self.cols, tile_length, tile_width)
         puts "making mosaic"
         m.create_mosaic(photos)
         puts Time.now - time
+    end
+
+    def quick_make_mosaic(photo_length, photo_width, tile_length, tile_width)
+        self.get_pixels(photo_length, photo_width)
+        s = Search.last
+        s.resize_pictures(tile_length, tile_width)
+        s.average_color_list
+
+        photos = m.order_photos(self.ordered_tiles, self.rows, self.cols)
+
+        m.create_mosaic(photos)
     end
 
 end

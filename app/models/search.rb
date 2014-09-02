@@ -32,7 +32,7 @@ class Search
 
     def get_pictures
       @photo_tiles = ImageList.new
-      limit = 50
+      limit = 100
       photos_per_query = 10
       api_key = "AIzaSyCHSKFAq4jNSLXBFD-0X_In1gwsYimZbVc"
       id = "012238431153746656688:i-xqvgd0-hq"
@@ -72,11 +72,11 @@ class Search
       end
     end
 
-    def resize_pictures
+    def resize_pictures(length, width)
       l = ImageList.new
       self.photo_tiles.scene = 0
       (0...self.photo_tiles.length).each do |i|
-        l << self.photo_tiles.resize_to_fill!(5,5)
+        l << self.photo_tiles.resize_to_fill!(length,width)
         self.photo_tiles.scene += 1 rescue self.photo_tiles.scene = 0
       end
       @resized_photo_tiles = l
@@ -100,14 +100,14 @@ class Search
       end
     end
 
-    def complete_search
+    def complete_search(tile_length, tile_width)
       puts "getting pictures"
       time = Time.now
       self.get_pictures
       time2 = Time.now
       puts "Getting pictures took #{time2 - time}"
       puts "resizing pictures"
-      self.resize_pictures
+      self.resize_pictures(tile_length, tile_width)
       time3 = Time.now
       puts  "resizing pictures took #{time3 - time2}"
       puts "getting picture colors"

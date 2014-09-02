@@ -11,6 +11,7 @@ class ImagesController < ApplicationController
         @image.save
         # uploader = AvatarUploader.new
         # uploader.store!(params[:picture])
+        @image.make_mosaic(150,150,10,10)
         redirect_to @image
     end
 
