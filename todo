@@ -1,3 +1,14 @@
+- fix how reading the photos sometimes stalls
+- make whole thing faster
+- figure out optimal size and number of tiles
+- figure out how to display the image in the results view
+- deploy
+
+
+
+
+
+
 
 
 

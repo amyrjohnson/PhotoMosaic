@@ -32,7 +32,7 @@ class Search
 
     def get_pictures
       @photo_tiles = ImageList.new
-      limit = 100
+      limit = 50
       photos_per_query = 10
       api_key = "AIzaSyCHSKFAq4jNSLXBFD-0X_In1gwsYimZbVc"
       id = "012238431153746656688:i-xqvgd0-hq"
@@ -43,32 +43,30 @@ class Search
         puts "getting photos"
         puts "start is: #{start}"
         source = "https://www.googleapis.com/customsearch/v1?q=#{self.search_term}&cx=#{id}&num=#{photos_per_query}&searchType=image&start=#{start}&key=#{api_key}&imageSize=Medium&fileType=jpg"
-        puts source
-        # source = "https://www.googleapis.com/customsearch/v1?q=#{search_term}&cx=#{id}&num=#{photos_per_query}&searchType=image&key=#{api_key}"
+        #puts source
+        #source = "https://www.googleapis.com/customsearch/v1?q=#{search_term}&cx=#{id}&num=#{photos_per_query}&searchType=image&key=#{api_key}"
         data = JSON.load(open(source))
-        puts data.inspect
         (0...photos_per_query).each {|i|
-            puts "reading photos"
-            # @photo_tiles.read(data["items"][i]["image"]["thumbnailLink"]) rescue puts 'Cannot read image'
-            # @photo_tiles.read(data["items"][i]["link"]) rescue puts 'Cannot read image'
+            #@photo_tiles.read(data["items"][i]["image"]["thumbnailLink"]) rescue puts 'Cannot read image'
+            #@photo_tiles.read(data["items"][i]["link"]) rescue puts 'Cannot read image'
             threads << Thread.new { 
-              open("tmp/image_#{start}_#{i}", 'wb') do |file|
-                file << open(data["items"][i]["link"]).read rescue puts 'Cannot read image'
-              end
-            }
+               open("tmp/image_#{start}_#{i}", 'wb') do |file|
+                 file << open(data["items"][i]["image"]["thumbnailLink"]).read rescue puts 'Cannot read image'
+               end
+             }
             
         }
       } rescue 'no more images found'
 
       threads.each do |t|
-        t.join
+         t.join
       end
 
       (1..limit).step(photos_per_query) do |start|
-        (0...photos_per_query).each do |i|
+         (0...photos_per_query).each do |i|
           puts "reading tmp/image_#{start}_#{i}"
           @photo_tiles.read("tmp/image_#{start}_#{i}") rescue puts 'Cannot read image'
-        end
+         end
       end
     end
 
@@ -114,7 +112,6 @@ class Search
       self.average_color_list
       time4 = Time.now 
       puts "getting picture colors took #{time4 - time3}"
-
     end
 
 end

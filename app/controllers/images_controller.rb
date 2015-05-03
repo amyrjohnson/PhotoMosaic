@@ -12,6 +12,7 @@ class ImagesController < ApplicationController
         # uploader = AvatarUploader.new
         # uploader.store!(params[:picture])
         @image.make_mosaic(150,150,10,10)
+        #destroy images from tmp folder
         redirect_to @image
     end
 

@@ -63,23 +63,29 @@ class Image < ActiveRecord::Base
     end
 
     def make_mosaic(photo_length, photo_width, tile_length, tile_width)
-        puts "getting pixels"
         time = Time.now
         self.get_pixels(photo_length, photo_width)
+        time2 = Time.now
+        puts "getting pixels took #{time2 - time}"
         s = Search.new(self.search)
         puts "going to the seach class"
         s.complete_search(tile_length, tile_width)
-        puts "matching pixels with image tiles"
-
+        time3 = Time.now
+        puts "search took #{time3 - time2}"
         self.match_all_pixels(s.photo_tile_colors)
-        puts "putting tiles in order"
+        time4 = Time.now
+        puts "matching pixels with image tiles took #{time4 - time3}"
         self.order_tiles(s.resized_photo_tiles)
+        time5 = Time.now
+        puts "putting tiles in order took #{time5 - time4}"
         m = Mosaic.new
-        puts "ordering photos for mosaic"
         photos = m.order_photos(self.ordered_tiles, self.rows, self.cols, tile_length, tile_width)
-        puts "making mosaic"
+        time6 = Time.now
+        puts "ordering photos took #{time6 - time5}"
         m.create_mosaic(photos)
-        puts Time.now - time
+        time7 = Time.now
+        puts "making mosaic took #{time7 - time6}"
+        puts "total time #{Time.now - time}"
     end
 
     def quick_make_mosaic(photo_length, photo_width, tile_length, tile_width)
